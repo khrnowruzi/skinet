@@ -1,6 +1,20 @@
-/* You can add global styles to this file, and also import other style files */
-
-// html, body { height: 100%; }
-// body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@use '@angular/material' as mat;
 
 @import "tailwindcss";
+
+$customeTheme: mat.define-theme();
+
+@include mat.core();
+
+.custom-theme {
+    @include mat.all-component-themes($customeTheme);
+
+    //override the button styles
+    .mdc-button, .mdc-raised-button, .mdc-stroked-button, .mdc-flat-button {
+        @apply rounded-md
+    }
+}
+
+.container {
+    @apply mx-auto max-w-screen-xl
+}
