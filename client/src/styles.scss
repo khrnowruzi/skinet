@@ -1,0 +1,20 @@
+@use '@angular/material' as mat;
+
+@import "tailwindcss";
+
+$customeTheme: mat.define-theme();
+
+@include mat.core();
+
+.custom-theme {
+    @include mat.all-component-themes($customeTheme);
+
+    //override the button styles
+    .mdc-button, .mdc-raised-button, .mdc-stroked-button, .mdc-flat-button {
+        @apply rounded-md
+    }
+}
+
+.container {
+    @apply mx-auto max-w-screen-xl
+}
