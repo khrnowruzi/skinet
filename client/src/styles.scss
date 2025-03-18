@@ -1,30 +1,24 @@
 @use '@angular/material' as mat;
 
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-$customeTheme: mat.define-theme();
+$customTheme: mat.define-theme();
 
 @include mat.core();
 
 .custom-theme {
-    @include mat.all-component-themes($customeTheme);
+    @include mat.all-component-themes($customTheme);
 
-    //override the button styles
-    .mdc-button,
-    .mdc-raised-button,
-    .mdc-stroked-button,
-    .mdc-flat-button {
+    // override the button styles
+    .mdc-button, .mdc-raised-button, .mdc-stroked-button, .mdc-flat-button {
         @apply rounded-md
     }
 }
 
 .container {
-    @apply mx-auto max-w-screen-xl
-}
-
-:root {
-    @include mat.paginator-overrides((container-background-color: #fff,
-        ));
+    @apply mx-auto max-w-screen-2xl
 }
 
 .text-primary {
@@ -41,12 +35,12 @@ button.match-input-height {
 
 .mat-mdc-snack-bar-container.snack-error {
     --mdc-snackbar-container-color: red;
-    --mdc-snackbar-button-color: #fff;
+    --mat-snack-bar-button-color: #fff;
     --mdc-snackbar-supporting-text-color: #fff;
 }
 
 .mat-mdc-snack-bar-container.snack-success {
     --mdc-snackbar-container-color: green;
-    --mdc-snackbar-button-color: #fff;
+    --mat-snack-bar-button-color: #fff;
     --mdc-snackbar-supporting-text-color: #fff;
 }
