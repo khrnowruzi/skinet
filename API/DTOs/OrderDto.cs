@@ -13,7 +13,7 @@ public class OrderDto
     public required PaymentSummary PaymentSummary { get; set; }
     public required List<OrderItemDto> OrderItems { get; set; }
     public decimal Subtotal { get; set; }
-    public required OrderStatus Status { get; set; }
+    public required string Status { get; set; }
     public required string PaymentIntentid { get; set; }
     public decimal Total { get; set; }
 }

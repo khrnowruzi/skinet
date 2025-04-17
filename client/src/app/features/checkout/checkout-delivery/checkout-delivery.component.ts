@@ -36,11 +36,11 @@ export class CheckoutDeliveryComponent implements OnInit {
 
   updateDeliveryMethod(method: DeliveryMethod) {
     this.cartService.selectedDelivery.set(method);
-    this.deliveryComplete.emit(true);
     const cart = this.cartService.cart();
     if (cart) {
       cart.deliveryMethodId = method.id;
       this.cartService.setCart(cart);
+      this.deliveryComplete.emit(true);
     }
   }
 }
