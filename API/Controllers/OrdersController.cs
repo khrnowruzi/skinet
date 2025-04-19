@@ -41,7 +41,7 @@ public class OrdersController(ICartService cartService, IUnitOfWork uow) : BaseA
             var orderItem = new OrderItem
             {
                 ItemOrdered = itemOrdered,
-                Price = item.Price,
+                Price = productItem.Price,
                 Quantity = item.Quantity
             };
             items.Add(orderItem);
