@@ -1,16 +1,9 @@
-@if (products) {
+@if (products && products.count > 0) {
 <div class="flex flex-col gap-3">
     <div class="flex justify-between">
-        <mat-paginator 
-            class="bg-white"
-            (page)="handlePageEvent($event)" 
-            [length]="products.count" 
-            [pageSize]="shopParams.pageSize"
-            [showFirstLastButtons]="true" 
-            [pageSizeOptions]="pageSizeOptions" 
-            [pageIndex]="shopParams.pageNumber - 1"
-            aria-label="Select page"
-        >
+        <mat-paginator class="bg-white" (page)="handlePageEvent($event)" [length]="products.count"
+            [pageSize]="shopParams.pageSize" [showFirstLastButtons]="true" [pageSizeOptions]="pageSizeOptions"
+            [pageIndex]="shopParams.pageNumber - 1" aria-label="Select page">
         </mat-paginator>
 
         <form #searchForm="ngForm" (ngSubmit)="onSearchChange()"
@@ -49,4 +42,7 @@
         }
     </mat-selection-list>
 </mat-menu>
+} @else {
+<app-empty-state icon="filter_alt_off" message="No products match this filter" actionText="Reset filters"
+    (action)="resetFilters()" />
 }
