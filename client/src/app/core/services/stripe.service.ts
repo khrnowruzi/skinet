@@ -32,7 +32,7 @@ export class StripeService {
     if (!this.elements) {
       const stripe = await this.getStripeInstance();
       if (stripe) {
-        const cart = await firstValueFrom(this.CreateOrUpdatePaymentIntent());
+        const cart = await firstValueFrom(this.createOrUpdatePaymentIntent());
         this.elements = stripe.elements(
           { clientSecret: cart.clientSecret, appearance: { labels: 'floating' } })
       } else {
@@ -121,12 +121,16 @@ export class StripeService {
     }
   }
 
-  CreateOrUpdatePaymentIntent() {
+  createOrUpdatePaymentIntent() {
     const cart = this.cartService.cart();
+    const hasClientSecret = !!cart?.clientSecret;
     if (!cart) throw new Error('Problem with cart');
     return this.http.post<Cart>(this.baseUrl + 'payments/' + cart.id, {}).pipe(
-      map(cart => {
-        this.cartService.setCart(cart);
+      map(async cart => {
+        if (!hasClientSecret) {
+          await firstValueFrom(this.cartService.setCart(cart));
+          return cart;
+        }
         return cart;
       })
     );

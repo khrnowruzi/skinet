@@ -107,7 +107,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       }
     }
     if (event.selectedIndex === 2) {
-      await firstValueFrom(this.stripeService.CreateOrUpdatePaymentIntent());
+      await firstValueFrom(this.stripeService.createOrUpdatePaymentIntent());
     }
     if (event.selectedIndex === 3) {
       await this.getConfirmationToken();
@@ -163,7 +163,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         expYear: card.exp_year
       },
       deliveryMethodId: cart.deliveryMethodId,
-      shippingAddress
+      shippingAddress,
+      discount: this.cartService.totals()?.discount
     }
   }
 
