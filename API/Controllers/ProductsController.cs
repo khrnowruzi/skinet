@@ -1,3 +1,4 @@
+using API.RequestHelpers;
 using Core.Entities;
 using Core.Interfaces;
 using Core.Specifications;
@@ -9,6 +10,7 @@ namespace API.Controllers;
 public class ProductsController(IUnitOfWork uow) : BaseApiController
 {
     [HttpGet]
+    [Cache(600)]
     public async Task<ActionResult<IReadOnlyList<Product>>> GetProducts(
         [FromQuery] ProductSpecParams specParams)
     {
@@ -18,6 +20,7 @@ public class ProductsController(IUnitOfWork uow) : BaseApiController
     }
 
     [HttpGet("{id:int}")]  // api/products/2
+    [Cache(600)]
     public async Task<ActionResult<Product>> GetProduct(int id)
     {
         var product = await uow.Repository<Product>().GetByIdAsync(id);
@@ -27,6 +30,7 @@ public class ProductsController(IUnitOfWork uow) : BaseApiController
         return product;
     }
 
+    [InvalidateCache("api/products|")]
     [HttpPost]
     [Authorize(Roles = "Admin")]
     public async Task<ActionResult<Product>> CreateProduct(Product product)
@@ -41,6 +45,7 @@ public class ProductsController(IUnitOfWork uow) : BaseApiController
         return BadRequest("Problem creating product");
     }
 
+    [InvalidateCache("api/products|")]
     [HttpPut("{id:int}")]
     [Authorize(Roles = "Admin")]
     public async Task<ActionResult> UpdateProduct(int id, Product product)
@@ -58,6 +63,7 @@ public class ProductsController(IUnitOfWork uow) : BaseApiController
         return BadRequest("Problem updating product");
     }
 
+    [InvalidateCache("api/products|")]
     [HttpDelete("{id:int}")]
     [Authorize(Roles = "Admin")]
     public async Task<ActionResult> DeleteProduct(int id)
@@ -77,6 +83,7 @@ public class ProductsController(IUnitOfWork uow) : BaseApiController
     }
 
     [HttpGet("brands")]
+    [Cache(10000)]
     public async Task<ActionResult<IReadOnlyList<Product>>> GetBrands()
     {
         var spec = new BrandlistSpecification();
@@ -85,6 +92,7 @@ public class ProductsController(IUnitOfWork uow) : BaseApiController
     }
 
     [HttpGet("types")]
+    [Cache(10000)]
     public async Task<ActionResult<IReadOnlyList<Product>>> GetTypes()
     {
         var spec = new TypeListSpecification();
