@@ -16,13 +16,13 @@ public class GenericRepository<T>(StoreContext context) : IGenericRepository<T> 
         var query = context.Set<T>().AsQueryable();
 
         query = spec.ApplyCriteria(query);
-        
+
         return await query.CountAsync();
     }
 
     public bool Exists(int id)
     {
-        return context.Set<T>().Any(x=>x.Id == id);
+        return context.Set<T>().Any(x => x.Id == id);
     }
 
     public async Task<T?> GetByIdAsync(int id)
@@ -37,7 +37,7 @@ public class GenericRepository<T>(StoreContext context) : IGenericRepository<T> 
 
     public async Task<TResult?> GetEntityWithSpec<TResult>(ISpecification<T, TResult> spec)
     {
-       return await ApplySpecification(spec).FirstOrDefaultAsync();
+        return await ApplySpecification(spec).FirstOrDefaultAsync();
     }
 
     public async Task<IReadOnlyList<T>> ListAllAsync()
@@ -60,11 +60,6 @@ public class GenericRepository<T>(StoreContext context) : IGenericRepository<T> 
         context.Set<T>().Remove(entity);
     }
 
-    public async Task<bool> SaveAllAsync()
-    {
-        return await context.SaveChangesAsync() > 0;
-    }
-
     public void Update(T entity)
     {
         context.Set<T>().Attach(entity);
@@ -75,7 +70,7 @@ public class GenericRepository<T>(StoreContext context) : IGenericRepository<T> 
     {
         return SpecificationEvaluator<T>.GetQuery(context.Set<T>().AsQueryable(), spec);
     }
-    
+
     private IQueryable<TResult> ApplySpecification<TResult>(ISpecification<T, TResult> spec)
     {
         return SpecificationEvaluator<T>.GetQuery<T, TResult>(context.Set<T>().AsQueryable(), spec);
